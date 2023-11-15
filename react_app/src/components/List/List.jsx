@@ -1,39 +1,76 @@
 import React, {Component} from "react";
-import  "./style.sass"
-
+import "./style.sass"
 
 
 export default class List extends React.Component {
     constructor (props) {
-        super(props);
+        super( props );
 
-        setTimeout(()=>{this.setState( {
+        const changeColour = setInterval( () => {
 
-            /* newColor: this.changeColor(),*/
-          list: this.state.list,
+            this.setState( {newCol: this.changeCol()} )
 
-        })},1500)
+
+            if ( this.state.list.every( el => el.active === true ) ) {
+                clearInterval( changeColour )
+            }
+
+
+        }, 2000 )
 
 
     }
 
+    changeCol () {
+        let index = 0;
+        let indexArr = [];
+        let summArr=[];
+        index = Math.ceil( Math.random() * this.state.list.length - 1 )
 
-    changeColor (){
-        this.setState({color:"white", backgroundColor:"blue"})
+        function count () {
+            indexArr.push( index )
+            return indexArr
+        }
+
+        count()
+
+
+        function duplicates () {
+            indexArr.filter( (e, ind, arr) => {
+                if ( arr.indexOf(e) === ind ) {summArr.push(e)}
+            } )
+            return summArr
+        }
+       console.log( duplicates())
+
+
+
+
+
+        this.state.list.filter( (el, i) => {
+            if ( i === index ) {
+                console.log( el )
+                el.active = true
+            }
+            ;
+        } )
     }
 
-    state={list:this.props.list,
-    color:"green",
-        backgroundColor:"white",
+
+    state = {
+        list: this.props.list,
+        color: "green",
+        backgroundColor: "white",
     }
 
 
-render () {
-    return this.state.list.map((item,index)=>   <tr  style={{color:this.state.color,backgroundColor:this.state.backgroundColor}  }  key={index}
-    > <td>{item.type}</td> <td>{item.icon}</td></tr>)
+    render () {
+        return this.state.list.map( (item, index) => <tr style={ {
+            color: `${ item.active ? "green" : "black" }`,
+            fontWeight: `${ item.active ? "bold" : "normal" }`
+        } } key={ index }>
+            <td>{ item.type }</td>
+            <td>{ item.icon }</td>
+        </tr> )
+    }
 }
-
-}
-/*export default function List ({list=[]}){
-    return list.map((item,index)=>  <tr key={index}> <td>{item.type}</td> <td>{item.icon}</td></tr>)
-}*/

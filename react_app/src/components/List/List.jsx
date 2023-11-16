@@ -10,7 +10,6 @@ export default class List extends React.Component {
 
             this.setState( {newCol: this.changeCol()} )
 
-
             if ( this.state.list.every( el => el.active === true ) ) {
                 clearInterval( changeColour )
             }
@@ -24,7 +23,7 @@ export default class List extends React.Component {
     changeCol () {
         let index = 0;
         let indexArr = [];
-        let summArr=[];
+        let summArr = [];
         index = Math.ceil( Math.random() * this.state.list.length - 1 )
 
         function count () {
@@ -37,25 +36,25 @@ export default class List extends React.Component {
 
         function duplicates () {
             indexArr.filter( (e, ind, arr) => {
-                if ( arr.indexOf(e) === ind ) {summArr.push(e)}
+                if ( arr.indexOf( e ) === ind ) {
+                    summArr.push( e )
+                }
+
             } )
             return summArr
         }
-       console.log( duplicates())
 
-
-
+        duplicates()
 
 
         this.state.list.filter( (el, i) => {
             if ( i === index ) {
-                console.log( el )
                 el.active = true
             }
             ;
         } )
-    }
 
+    }
 
     state = {
         list: this.props.list,
